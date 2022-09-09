@@ -1,0 +1,75 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html{
+    font-size: 62.5%;
+}
+
+body{
+    background-color: purple;
+    color: #fff;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.game-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    height: 100vh;
+    width: 100vw;
+}
+
+canvas {
+    border: 0.4rem solid #ff6600;
+    border-radius: 0.8rem;
+    background-color: #feff9d;
+}
+
+.btns {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin:  0 auto;
+    width: 100%;
+}
+
+button {
+    background-color: #fdef05;
+    border: 0.4rem solid;
+    border-color: #ff6600;
+    border-radius: 0.8rem;
+    font-family: inherit;
+    margin: 0;
+    padding: 0.5rem 2rem;
+    width: 10rem;
+}
+
+button:not(:last-child){
+    margin-right: 1rem;
+}
+
+.messages {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    width: 80%;
+    max-width: 46rem;
+}
+
+p{
+    font-size: 1.6rem;
+    display: block;
+    margin: 0;
+    width: 100%;
+}
+
+@media (max-width: 440px){
+    button{margin-top: 2.5rem;}
+    #up, #down {margin-left: 100%; margin-right: 100%;}
+}
