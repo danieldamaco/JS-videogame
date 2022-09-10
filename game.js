@@ -27,19 +27,28 @@ function setCanvasSize(){
 }
 
 function startGame(){
-    const map = maps[2]
-    const mapRows = map.trim().split('\n')
-    const mapRowCols = mapRows.map(row => row.trim().split(''))
+    const map = maps[0];
+    const mapRows = map.trim().split('\n');
+    const mapRowCols = mapRows.map(row => row.trim().split(''));
 
     game.font = String(elementSize*0.9)+'px verdana';
     game.textAlign = 'left';
 
-    for (let x=0; x<10; x++){
-        for (let y=1; y<=10; y++ ){
-            
-            game.fillText(emojis[mapRowCols[y-1][x]], elementSize*x, elementSize*0.98*y);
-        }
-    }
+
+    mapRowCols.forEach((row, rowI) => {
+        row.forEach((col, colI) => {
+            const emoji = emojis[col];
+            const posX = elementSize * colI;
+            const posY = elementSize * (rowI +1) * 0.98;
+            game.fillText(emoji, posX, posY);
+        });
+    });
+    
+    // for (let x=0; x<10; x++){
+    //     for (let y=1; y<=10; y++ ){
+    //         game.fillText(emojis[mapRowCols[y-1][x]], elementSize*x, elementSize*0.98*y);
+    //     }
+    // }
 
     // game.fillRect(0,0,100,100);
     // game.clearRect(100, 100, -50, -50);
