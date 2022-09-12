@@ -38,19 +38,20 @@ function startGame(){
     const mapRowCols = mapRows.map(row => row.trim().split(''));
 
     game.font = String(elementSize*0.9)+'px verdana';
-    game.textAlign = 'left';
+    game.textAlign = 'end';
 
     game.clearRect(0,0,canvasSize, canvasSize);
     mapRowCols.forEach((row, rowI) => {
         row.forEach((col, colI) => {
             const emoji = emojis[col];
-            const posX = elementSize * colI;
+            const posX = elementSize * (colI+1) *0.98;
             const posY = elementSize * (rowI +1) * 0.98;
 
             if (col == 'O'){
                 if(!playerPosition.x && !playerPosition.y){
                     playerPosition.x = posX;
                     playerPosition.y = posY;
+                    console.log({playerPosition});
                 }
             }
             game.fillText(emoji, posX, posY);
@@ -58,6 +59,7 @@ function startGame(){
         });
     });
 
+    
     movePlayer();
 
     // game.fillRect(0,0,100,100);
@@ -67,7 +69,10 @@ function startGame(){
 }
 
 function movePlayer(){
+    
     game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y);
+    
+    
 }
 
 window.addEventListener('keydown', moveByKeys);
@@ -84,25 +89,40 @@ function moveByKeys(event){
 }
 
 function moveUp(){
-    console.log('Arriba');
-    playerPosition.y -= elementSize*0.98;
-    startGame();
+    if (playerPosition.y > 0.099*canvasSize){
+        console.log('Arriba');
+        playerPosition.y -= elementSize*0.98;
+        startGame();
+    }
+   
 }
 
 function moveDown(){
-    console.log('Abajo');
-    playerPosition.y += elementSize*0.98;
-    startGame();
+    if (playerPosition.y < 0.98*canvasSize){
+        console.log('Abajo');
+        playerPosition.y += elementSize*0.98;
+        startGame();
+    }
+    
 }
 
 function moveLeft(){
-    console.log('Izquierda');
-    playerPosition.x -= elementSize;
-    startGame();
+    if (playerPosition.x > 0.098*canvasSize) {
+        playerPosition.x -= elementSize*0.98;
+        startGame();
+        console.log('Izquierda');
+        
+        
+    }
 }
 
 function moveRight(){
-    console.log('Derecha');
-    playerPosition.x += elementSize;
-    startGame();
+    if (playerPosition.x < 0.89*canvasSize) {
+        playerPosition.x += elementSize*0.98;
+        startGame();
+        console.log('Derecha');
+        
+        
+    }
+    
 }
