@@ -4,6 +4,7 @@ const btnUp = document.querySelector('#up');
 const btnDown = document.querySelector('#down');
 const btnLeft = document.querySelector('#left');
 const btnRight = document.querySelector('#right');
+const spanLives = document.querySelector('#lives');
 
 
 let canvasSize;
@@ -49,6 +50,8 @@ function startGame(){
         gameWin();
         return;
     }
+
+    showLives();
 
     const mapRows = map.trim().split('\n');
     const mapRowCols = mapRows.map(row => row.trim().split(''));
@@ -145,6 +148,14 @@ function levelFail(){
 
 function gameWin(){
     console.log('Terminaste el juego')
+}
+
+function showLives(){
+    const heartsArray = Array(lives).fill(emojis['HEART']);
+    let hearts = '';
+
+    heartsArray.forEach(heart => hearts += heart);
+    spanLives.innerHTML = hearts;
 }
 
 window.addEventListener('keydown', moveByKeys);
