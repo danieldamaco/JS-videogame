@@ -8,6 +8,11 @@ const btnRight = document.querySelector('#right');
 
 let canvasSize;
 let elementSize;
+let bombPosition = [];
+let flag = true;
+let level = 0; 
+let lives = 3; 
+
 
 const playerPosition = {
     x:undefined,
@@ -18,9 +23,6 @@ const giftPosition = {
     x: undefined,
     y: undefined
 };
-
-const bombPosition = [];
-let flag = true;
 
 window.addEventListener('load', setCanvasSize);
 window.addEventListener('resize', setCanvasSize);
@@ -41,7 +43,13 @@ function setCanvasSize(){
 }
 
 function startGame(){
-    const map = maps[0];
+    const map = maps[level];
+
+    if (!map){
+        gameWin();
+        return;
+    }
+
     const mapRows = map.trim().split('\n');
     const mapRowCols = mapRows.map(row => row.trim().split(''));
 
@@ -70,7 +78,6 @@ function startGame(){
                     y: posY})
             }
 
-
             game.fillText(emoji, posX, posY);
 
         });
@@ -93,7 +100,7 @@ function movePlayer(){
     const giftCollision = giftCollisionX && giftCollisionY;
 
     if (giftCollision){
-        console.log('Subiste de nivel')
+        levelWin();
     } 
 
     const bombCollision = bombPosition.find((bomb)=> {
@@ -101,13 +108,43 @@ function movePlayer(){
         const bombCollisionY = playerPosition.y.toFixed(3) == bomb.y.toFixed(3);
         return bombCollisionX && bombCollisionY;
     });
-    if (bombCollision){
-            
-        console.log('Colisionaste!')
+    if (bombCollision){  
+        levelFail();
+        
     }
 
     game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y);
 
+}
+
+function levelWin(){
+    console.log('subiste de nivel')
+    level ++;
+    flag = true;
+    bombPosition = [];
+    startGame();
+}
+
+function levelFail(){
+    lives --;
+    console.log(lives)
+    
+
+    if (lives <= 0) {
+        lives = 3; 
+        level = 0;
+        flag = true;
+        bombPosition = [];
+    } 
+  
+    playerPosition.x = undefined;
+    playerPosition.y = undefined;
+    startGame();
+    
+}
+
+function gameWin(){
+    console.log('Terminaste el juego')
 }
 
 window.addEventListener('keydown', moveByKeys);
