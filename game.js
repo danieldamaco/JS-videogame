@@ -5,6 +5,9 @@ const btnDown = document.querySelector('#down');
 const btnLeft = document.querySelector('#left');
 const btnRight = document.querySelector('#right');
 const spanLives = document.querySelector('#lives');
+const spanTime = document.querySelector('#time');
+const spanRecord = document.querySelector('#record');
+const pResult = document.querySelector('#result');
 
 
 let canvasSize;
@@ -14,6 +17,10 @@ let flag = true;
 let level = 0; 
 let lives = 3; 
 
+let timeStart;
+let timePlayer;
+let timeInterval; 
+let timeRecord;
 
 const playerPosition = {
     x:undefined,
@@ -49,6 +56,12 @@ function startGame(){
     if (!map){
         gameWin();
         return;
+    }
+
+    if (!timeStart){
+        timeStart = Date.now();
+        timeInterval = setInterval(showTime, 100);
+        showRecord();
     }
 
     showLives();
@@ -138,16 +151,32 @@ function levelFail(){
         level = 0;
         flag = true;
         bombPosition = [];
+        // timeStart = undefined;
     } 
-  
+    
+    
     playerPosition.x = undefined;
     playerPosition.y = undefined;
     startGame();
     
 }
 
-function gameWin(){
-    console.log('Terminaste el juego')
+function gameWin(){ 
+    console.log('Terminaste el juego');
+    clearInterval(timeInterval);
+
+    const record_time = localStorage.getItem('record_time');
+
+    if (record_time){
+        if(record_time >= timePlayer){
+            localStorage.setItem('record_time', timePlayer);
+            pResult.innerHTML = '¡SUPERASTE EL RECORD!'
+        } else {
+            pResult.innerHTML = 'Lo siento, no superaste el record';
+        }
+    } else {
+        localStorage.setItem('record_time', timePlayer);
+    }
 }
 
 function showLives(){
@@ -156,6 +185,15 @@ function showLives(){
 
     heartsArray.forEach(heart => hearts += heart);
     spanLives.innerHTML = hearts;
+}
+
+function showTime(){
+    timePlayer = (Date.now() - timeStart)/1000;
+    spanTime.innerHTML = timePlayer;
+}
+
+function showRecord(){
+    spanRecord.innerHTML = localStorage.getItem('record_time')
 }
 
 window.addEventListener('keydown', moveByKeys);
